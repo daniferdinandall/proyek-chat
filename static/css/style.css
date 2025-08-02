@@ -1,0 +1,251 @@
+/* === Global Reset === */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === Login Page === */
+.login-body {
+  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 2em;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  font-style: italic;
+  color: #555;
+}
+
+.input-field {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.btn-login {
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-login:hover {
+  background: #0056b3;
+}
+
+/* === Chat Page === */
+.chat-body {
+  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#chat-box {
+  background: #fff;
+  width: 90%;
+  max-width: 700px;
+  height: 85%;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#chat-box h2 {
+  margin: 0;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+/* === Message List === */
+#messages {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  background: #e5ddd5;
+}
+
+/* === Status Notif === */
+#messages li.status {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.85em;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: #333;
+  align-self: center;
+  margin: 4px auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+}
+
+/* === Chat Item Structure === */
+.chat-item {
+  display: flex;
+  align-items: flex-end;
+  max-width: 100%;
+}
+
+.chat-item.own {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  align-self: flex-end;
+}
+
+.chat-item.other {
+  justify-content: flex-start;
+  flex-direction: row;
+  align-self: flex-start;
+}
+
+/* === Avatar === */
+.chat-avatar {
+  flex-shrink: 0;
+}
+
+.chat-avatar img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+
+/* === Chat Bubble === */
+.chat-bubble {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-item.own .chat-bubble {
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.chat-item.other .chat-bubble {
+  background-color: #ffffff;
+  border-bottom-left-radius: 0;
+}
+
+/* === Bubble Content === */
+.chat-username {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 4px;
+}
+
+.chat-message {
+  font-size: 1em;
+  color: #333;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.chat-time {
+  font-size: 0.75em;
+  color: #888;
+  margin-top: 6px;
+  text-align: right;
+}
+
+/* === Message Form === */
+#message-form {
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #eee;
+  background: #fff;
+  gap: 10px;
+}
+
+#message_input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  outline: none;
+}
+
+#send_button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#send_button:hover {
+  background: #0056b3;
+}
+
+/* === Animasi FadeIn (opsional) === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

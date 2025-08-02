@@ -1,68 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Flask Chat - {{ username }}</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
-        #chat-box { width: 90%; max-width: 600px; margin: auto; }
-        #messages { list-style-type: none; padding: 0; margin: 0; height: 400px; overflow-y: scroll; border: 1px solid #ddd; background: white; padding: 10px; margin-bottom: 10px; }
-        #messages li { padding: 8px; border-bottom: 1px solid #eee; }
-        #messages li.status { color: #888; font-style: italic; text-align: center; }
-        #message-form { display: flex; }
-        #message_input { flex-grow: 1; padding: 10px; border: 1px solid #ddd; }
-        #send_button { padding: 10px 20px; border: none; background: #007bff; color: white; cursor: pointer; }
-    </style>
+    <title>Real Time Chat — {{ username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+
+<body class="chat-body">
 
     <div id="chat-box">
         <h2>Selamat Datang, {{ username }}!</h2>
         <ul id="messages"></ul>
         <form id="message-form" action="#" method="POST">
-            <input type="text" id="message_input" placeholder="Ketik pesanmu..." autocomplete="off"/>
+            <input type="text" id="message_input" placeholder="Ketik pesanmu..." autocomplete="off" />
             <button id="send_button" type="submit">Kirim</button>
         </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var socket = io();
+    <script>
+        const currentUser = "{{ username }}";
 
-            // 1. Saat terhubung, kirim event 'join'
-            socket.on('connect', function() {
+        $(document).ready(function () {
+            const socket = io();
+
+            socket.on('connect', () => {
                 socket.emit('join', {});
             });
 
-            // 2. Mengirim pesan saat form disubmit
-            $('#message-form').submit(function(event) {
-                event.preventDefault();
-                var messageText = $('#message_input').val();
-                if (messageText !== '') {
-                    socket.emit('message', {data: messageText});
+            $('#message-form').submit(function (e) {
+                e.preventDefault();
+                const msg = $('#message_input').val().trim();
+                if (msg !== '') {
+                    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    socket.emit('message', { data: msg, time: timestamp });
                     $('#message_input').val('');
                 }
             });
 
-            // 3. Menerima pesan broadcast dari server
-            socket.on('response', function(msg) {
-                $('#messages').append('<li>' + msg.msg + '</li>');
+            socket.on('response', function (data) {
+                const { username, message, time } = data;
+                const isOwnMessage = username === currentUser;
+
+                const html = `
+                <li class="chat-item ${isOwnMessage ? 'own' : 'other'}">
+                    <div class="chat-avatar">
+                        <img src="https://ui-avatars.com/api/?name=${username}&background=${isOwnMessage ? '34c759' : '007bff'}&color=fff&rounded=true" alt="avatar">
+                    </div>
+                    <div class="chat-bubble">
+                        <div class="chat-username">${username}</div>
+                        <div class="chat-message">${message}</div>
+                        <div class="chat-time">${time}</div>
+                    </div>
+                </li>
+            `;
+                $('#messages').append(html);
                 scrollToBottom();
             });
 
-            // 4. Menerima pesan status (bergabung/keluar)
-            socket.on('status', function(msg) {
-                $('#messages').append('<li class="status">' + msg.msg + '</li>');
+            socket.on('status', function (msg) {
+                $('#messages').append(`<li class="status">${msg.msg}</li>`);
                 scrollToBottom();
             });
 
             function scrollToBottom() {
-                var messageList = document.getElementById("messages");
-                messageList.scrollTop = messageList.scrollHeight;
+                const messages = document.getElementById("messages");
+                messages.scrollTop = messages.scrollHeight;
             }
         });
     </script>
 </body>
+
 </html>
